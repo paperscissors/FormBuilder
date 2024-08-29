@@ -27,6 +27,18 @@ class FormBuilderTest extends TestCase
         $this->assertStringContainsString('class="form-control"', $output);
     }
 
+    public function testPlaceholder()
+    {
+        $this->formBuilder->add('name', 'text', [
+            'label' => 'Name',
+            'attr' => ['class' => 'form-control'],
+            'placeholder' => 'Enter your name'
+        ]);
+
+        $output = $this->formBuilder->render();
+        $this->assertStringContainsString('placeholder="Enter your name"', $output);
+    }
+
     public function testFormAttributes()
     {
         $this->formBuilder
@@ -38,6 +50,17 @@ class FormBuilderTest extends TestCase
         $this->assertStringContainsString('<form method="POST"', $output);
         $this->assertStringContainsString('action="/submit"', $output);
         $this->assertStringContainsString('class="my-form"', $output);
+    }
+
+    public function testAttributes()
+    {
+        $this->formBuilder->add('name', 'text', [
+            'label' => 'Name',
+            'attr' => ['class' => 'form-control', 'debug' => true]
+        ]);
+
+        $output = $this->formBuilder->render();
+        $this->assertStringContainsString('class="form-control" debug="1"', $output);
     }
 
     public function testCsrfToken()

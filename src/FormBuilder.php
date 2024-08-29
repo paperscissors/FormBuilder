@@ -42,42 +42,43 @@ class FormBuilder
             $html .= "<div class=\"{$wrapperClass}\">\n";
         }
 
-        // Label
-        if (isset($field['options']['label'])) {
+        // Label (not for hidden fields)
+        if ($field['type'] !== 'hidden' && isset($field['options']['label'])) {
             $labelClass = $field['options']['label_attr']['class'] ?? '';
             $html .= "<label class=\"{$labelClass}\" for=\"{$name}\">{$field['options']['label']}</label>\n";
         }
 
         // Field
-        $fieldClass = $field['options']['attr']['class'] ?? '';
-        $required = isset($field['options']['attr']['required']) && $field['options']['attr']['required'] ? 'required' : '';
+        $attributes = $field['options']['attr'] ?? [];
+        if (isset($field['options']['placeholder'])) {
+            $attributes['placeholder'] = $field['options']['placeholder'];
+        }
+        $attributeString = $this->buildAttributes($attributes);
         $value = $this->getFieldValue($name);
 
         switch ($field['type']) {
-            case "hidden":
-                $html .= "<input type=\"hidden\" id=\"{$name}\" name=\"{$name}\" value=\"{$value}\">\n";
-                break;
-            case 'password':
             case 'text':
             case 'submit':
-                $html .= "<input type=\"{$field['type']}\" id=\"{$name}\" name=\"{$name}\" class=\"{$fieldClass}\" {$required} value=\"{$value}\">\n";
+            case 'number':
+            case 'hidden':
+                $html .= "<input type=\"{$field['type']}\" name=\"{$name}\" value=\"{$value}\" {$attributeString}>\n";
                 break;
             case 'textarea':
-                $html .= "<textarea id=\"{$name}\" name=\"{$name}\" class=\"{$fieldClass}\" {$required}>{$value}</textarea>\n";
+                $html .= "<textarea name=\"{$name}\" {$attributeString}>{$value}</textarea>\n";
                 break;
             case 'checkbox':
                 $checked = $value ? 'checked' : '';
-                $html .= "<input type=\"checkbox\" id=\"{$name}\" name=\"{$name}\" class=\"{$fieldClass}\" {$required} {$checked} value=\"1\">\n";
+                $html .= "<input type=\"checkbox\" name=\"{$name}\" value=\"1\" {$checked} {$attributeString}>\n";
                 break;
             case 'radio':
                 foreach ($field['options']['choices'] as $optionValue => $label) {
                     $checked = $optionValue == $value ? 'checked' : '';
-                    $html .= "<input type=\"radio\" id=\"{$name}_{$optionValue}\" name=\"{$name}\" class=\"{$fieldClass}\" {$required} value=\"{$optionValue}\" {$checked}>\n";
+                    $html .= "<input type=\"radio\" name=\"{$name}\" value=\"{$optionValue}\" {$checked} {$attributeString}>\n";
                     $html .= "<label for=\"{$name}_{$optionValue}\">{$label}</label>\n";
                 }
                 break;
             case 'select':
-                $html .= "<select id=\"{$name}\" name=\"{$name}\" class=\"{$fieldClass}\" {$required}>\n";
+                $html .= "<select name=\"{$name}\" {$attributeString}>\n";
                 if (isset($field['options']['empty_value'])) {
                     $html .= "<option value=\"\">{$field['options']['empty_value']}</option>\n";
                 }
@@ -92,7 +93,7 @@ class FormBuilder
         // Error messages
         if (isset($field['options']['errors'])) {
             $errorClass = $field['options']['errors']['class'] ?? '';
-            $html .= "<div style='display: none;' class=\"{$errorClass}\"></div>\n";
+            $html .= "<div class=\"{$errorClass}\"></div>\n";
         }
 
         // Wrapper end
@@ -101,6 +102,15 @@ class FormBuilder
         }
 
         return $html;
+    }
+
+    private function buildAttributes(array $attributes): string
+    {
+        $html = '';
+        foreach ($attributes as $key => $value) {
+            $html .= $value === '' ? "{$key} " : "{$key}=\"{$value}\" ";
+        }
+        return trim($html);
     }
 
     public function render()
