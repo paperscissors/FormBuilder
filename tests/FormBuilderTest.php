@@ -126,6 +126,10 @@ class FormBuilderTest extends TestCase
         $this->assertStringNotContainsString('<button', $renderedField);
         $this->assertStringNotContainsString('<submit', $renderedField);
 
+        // make sure we don't have inputs with the type of submit.
+        $this->assertStringNotContainsString('type="submit"', $renderedField);
+
+
         // Test that CSRF token is not present
         $this->assertStringNotContainsString('name="_token"', $renderedField);
 

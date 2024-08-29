@@ -132,6 +132,8 @@ class FormBuilder
         // remove buttons or submit buttons
         $formContent = preg_replace('/<button[^>]*type="submit"[^>]*>/', '', $formContent);
         $formContent = preg_replace('/<button[^>]*type="button"[^>]*>/', '', $formContent);
+        // remove inputs that have a type of submit
+        $formContent = preg_replace('/<input[^>]*type="submit"[^>]*>/', '', $formContent);
 
         return trim($formContent);
     }
