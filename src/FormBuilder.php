@@ -54,6 +54,10 @@ class FormBuilder
         $value = $this->getFieldValue($name);
 
         switch ($field['type']) {
+            case "hidden":
+                $html .= "<input type=\"hidden\" id=\"{$name}\" name=\"{$name}\" value=\"{$value}\">\n";
+                break;
+            case 'password':
             case 'text':
             case 'submit':
                 $html .= "<input type=\"{$field['type']}\" id=\"{$name}\" name=\"{$name}\" class=\"{$fieldClass}\" {$required} value=\"{$value}\">\n";
