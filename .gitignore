@@ -1,0 +1,85 @@
+# Composer dependencies
+/vendor/
+composer.phar
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+
+# PHP Storm IDE
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS thumbnails
+._*
+
+# macOS directory files
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows system files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+
+# Windows shortcuts
+*.lnk
+
+# Linux
+*~
+
+# Linux temporary files
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# PHP files
+*.log
+*.cache
+*.bak
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build directories
+/build/
+/dist/
+
+# Temporary files
+/tmp/
+/temp/
+
+# Node modules (if you use any JavaScript tools)
+/node_modules/
+
+# Miscellaneous
+*.tar.gz
+*.zip
