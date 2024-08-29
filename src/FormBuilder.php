@@ -96,7 +96,7 @@ class FormBuilder
         // Error messages
         if (isset($field['options']['errors'])) {
             $errorClass = $field['options']['errors']['class'] ?? '';
-            $html .= "<div class=\"{$errorClass}\"></div>\n";
+            $html .= "<div style=\"display: none\" class=\"{$errorClass}\"></div>\n";
         }
 
         // Wrapper end
