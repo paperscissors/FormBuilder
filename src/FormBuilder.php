@@ -134,6 +134,8 @@ class FormBuilder
         $formContent = preg_replace('/<button[^>]*type="button"[^>]*>/', '', $formContent);
         // remove inputs that have a type of submit
         $formContent = preg_replace('/<input[^>]*type="submit"[^>]*>/', '', $formContent);
+        // remove csrf token field
+        $formContent = preg_replace('/<input[^>]*name="_token"[^>]*>/', '', $formContent);
 
         return trim($formContent);
     }
