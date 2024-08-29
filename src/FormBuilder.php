@@ -142,7 +142,7 @@ class FormBuilder
         return $this;
     }
 
-    private function renderFormOpen()
+    public function renderFormOpen()
     {
         $method = strtoupper($this->formAttributes['method']);
         $url = $this->formAttributes['url'];
@@ -157,12 +157,12 @@ class FormBuilder
         return $html;
     }
 
-    private function renderFormClose()
+    public function renderFormClose()
     {
         return "</form>\n";
     }
 
-    private function renderCsrfField()
+    public function renderCsrfField()
     {
         return "<input type=\"hidden\" name=\"_token\" value=\"{$this->csrf}\">\n";
     }
