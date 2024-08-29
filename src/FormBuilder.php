@@ -42,8 +42,8 @@ class FormBuilder
             $html .= "<div class=\"{$wrapperClass}\">\n";
         }
 
-        // Label (not for hidden fields)
-        if ($field['type'] !== 'hidden' && isset($field['options']['label'])) {
+        // Label (not for hidden fields or when explicitly set to false)
+        if ($field['type'] !== 'hidden' && isset($field['options']['label']) && $field['options']['label'] !== false) {
             $labelClass = $field['options']['label_attr']['class'] ?? '';
             $html .= "<label class=\"{$labelClass}\" for=\"{$name}\">{$field['options']['label']}</label>\n";
         }
@@ -88,6 +88,9 @@ class FormBuilder
                 }
                 $html .= "</select>\n";
                 break;
+            case 'form':
+                $html .= $this->renderEmbeddedForm($field['options']['form'], $field['options']['formOptions'] ?? []);
+                break;
         }
 
         // Error messages
@@ -111,6 +114,23 @@ class FormBuilder
             $html .= $value === '' ? "{$key} " : "{$key}=\"{$value}\" ";
         }
         return trim($html);
+    }
+
+    private function renderEmbeddedForm(FormBuilder $form, array $formOptions = [])
+    {
+        // Apply any additional options to the embedded form
+        foreach ($formOptions as $key => $value) {
+            if (method_exists($form, $key)) {
+                $form->$key($value);
+            }
+        }
+
+        // Render the form content without the opening/closing tags and CSRF field
+        $formContent = $form->render();
+        $formContent = preg_replace('/<form[^>]*>|<\/form>/', '', $formContent);
+        $formContent = preg_replace('/<input[^>]*name="_token"[^>]*>/', '', $formContent);
+
+        return trim($formContent);
     }
 
     public function render()
