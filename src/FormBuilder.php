@@ -129,6 +129,9 @@ class FormBuilder
         $formContent = $form->render();
         $formContent = preg_replace('/<form[^>]*>|<\/form>/', '', $formContent);
         $formContent = preg_replace('/<input[^>]*name="_token"[^>]*>/', '', $formContent);
+        // remove buttons or submit buttons
+        $formContent = preg_replace('/<button[^>]*type="submit"[^>]*>/', '', $formContent);
+        $formContent = preg_replace('/<button[^>]*type="button"[^>]*>/', '', $formContent);
 
         return trim($formContent);
     }

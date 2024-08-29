@@ -123,6 +123,8 @@ class FormBuilderTest extends TestCase
         // Test that form tags are not present
         $this->assertStringNotContainsString('<form', $renderedField);
         $this->assertStringNotContainsString('</form>', $renderedField);
+        $this->assertStringNotContainsString('<button', $renderedField);
+        $this->assertStringNotContainsString('<submit', $renderedField);
 
         // Test that CSRF token is not present
         $this->assertStringNotContainsString('name="_token"', $renderedField);
