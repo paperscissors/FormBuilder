@@ -132,6 +132,8 @@ class FormBuilderTest extends TestCase
 
         // Test that CSRF token is not present
         $this->assertStringNotContainsString('name="_token"', $renderedField);
+        // Test that method attribute is not present
+        $this->assertStringNotContainsString('name="_method"', $renderedField);
 
         // Test formOptions application
         // $this->assertStringContainsString('class="embedded-form"', $renderedField);
