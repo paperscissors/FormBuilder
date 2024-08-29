@@ -85,11 +85,11 @@ class FormBuilder
                 break;
         }
 
-        // // Error messages
-        // if (isset($field['options']['errors'])) {
-        //     $errorClass = $field['options']['errors']['class'] ?? '';
-        //     $html .= "<div class=\"{$errorClass}\"></div>\n";
-        // }
+        // Error messages
+        if (isset($field['options']['errors'])) {
+            $errorClass = $field['options']['errors']['class'] ?? '';
+            $html .= "<div style='display: none;' class=\"{$errorClass}\"></div>\n";
+        }
 
         // Wrapper end
         if (isset($field['options']['wrapper'])) {
