@@ -60,7 +60,7 @@ class FormBuilderTest extends TestCase
         ]);
 
         $output = $this->formBuilder->render();
-        $this->assertStringContainsString('class="form-control" debug="1"', $output);
+        $this->assertStringContainsString('class="form-control" debug', $output);
     }
 
     public function testCsrfToken()
@@ -206,5 +206,27 @@ class FormBuilderTest extends TestCase
         $this->formBuilder->method('PATCH');
         $output = $this->formBuilder->render();
         $this->assertStringContainsString('name="_method" value="PATCH"', $output);
+    }
+
+    public function testRequiredAttribute()
+    {
+        // Test with required field
+        $this->formBuilder->add('email', 'text', [
+            'label' => 'Email',
+            'attr' => ['required' => true]
+        ]);
+        $output = $this->formBuilder->render();
+        $this->assertStringContainsString('required', $output);
+
+        // Reset form builder
+        $this->formBuilder = new FormBuilder();
+
+        // Test with non-required field
+        $this->formBuilder->add('name', 'text', [
+            'label' => 'Name',
+            'attr' => ['required' => false]
+        ]);
+        $output = $this->formBuilder->render();
+        $this->assertStringNotContainsString('required', $output);
     }
 }

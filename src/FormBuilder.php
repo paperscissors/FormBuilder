@@ -108,14 +108,17 @@ class FormBuilder
     }
 
     private function buildAttributes(array $attributes): string
-    {
-        $html = '';
-        foreach ($attributes as $key => $value) {
-            $html .= $value === '' ? "{$key} " : "{$key}=\"{$value}\" ";
+{
+    $html = '';
+    foreach ($attributes as $key => $value) {
+        if ($value === true) {
+            $html .= "{$key} ";
+        } elseif ($value !== false && $value !== null) {
+            $html .= "{$key}=\"{$value}\" ";
         }
-        return trim($html);
     }
-
+    return trim($html);
+}
     private function renderEmbeddedForm(FormBuilder $form, array $formOptions = [])
     {
         // Apply any additional options to the embedded form
